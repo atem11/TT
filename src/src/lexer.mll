@@ -2,8 +2,8 @@
 open Parser;;
 }
 
-let whitespace  = [' ' '\t' '\r' '\n']
-let variable    = ['a'-'z']['a'-'z' '0'-'9' ''']*
+let whitespace  = [' ' '\t' '\r' '\n' '\ ']
+let variable    = ['a'-'z'] ['a'-'z' '0'-'9' '\'']*
 
 rule main = parse
     | whitespace    { main lexbuf }

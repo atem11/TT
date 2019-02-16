@@ -6,18 +6,22 @@
 %token OPEN CLOSE
 %token EOF
 %token DOT
-%nonassoc ABST
+%nonassoc ABST DOT
 %start main
 %type <Grammar.expr> main
 %%
 main:
-    apply EOF           { $1 }
+    expr EOF           { $1 }
+
+expr:
+    apply ABST VAR DOT expr   { Appl ($1, Abst($3, $5)) }
+    | ABST VAR DOT expr       { Abst($2, $4) }
+    | apply                   { $1 }
 
 apply:
     apply atom          { Appl ($1, $2) }
-    |atom               { $1 }
+    | atom               { $1 }
 
 atom:
     VAR                 { Var ($1) }
-    |OPEN apply CLOSE   { $2 }
-    |ABST VAR DOT apply { Abst ($2, $4) }
+    |OPEN expr CLOSE   { $2 }
