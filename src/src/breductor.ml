@@ -34,7 +34,8 @@ let rec reduction_impl expr = match expr with
 ;;
 
 let rec reduction_loop expr = begin
-    (*expr >> string_of >> print_endline;*)
+    (*expr >> string_of >> print_endline;
+    print_endline " ";*)
     let reduction_res = reduction_impl expr in 
         if (reduction_res = expr)
           then  reduction_res

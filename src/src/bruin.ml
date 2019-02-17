@@ -12,9 +12,9 @@ type bruin =
 
 
 let rec string_of_normalized_expr bruin level = match bruin with
-    | FreeVar     (s)   ->  s
-    | NotFreeVar  (l)   ->  "kek" ^ ((string_of_int (level - l - 1)))
-    | Abstract    (e)   -> "(\\" ^ "kek" ^ (string_of_int level) ^ "." ^ (string_of_normalized_expr e (level + 1)) ^ ")"
+    | FreeVar     (s)   ->  "(" ^ s ^ ")"
+    | NotFreeVar  (l)   ->  "(" ^ "varaible" ^ ((string_of_int (level - l - 1))) ^ ")"
+    | Abstract    (e)   -> "(\\" ^ "varaible" ^ (string_of_int level) ^ "." ^ "(" ^ (string_of_normalized_expr e (level + 1)) ^ ")" ^ ")"
     | Aplic       (f, s)-> "(" ^ (string_of_normalized_expr f level) ^ " " ^ (string_of_normalized_expr s level) ^ ")"
 ;;
 
@@ -29,7 +29,7 @@ let rec numirate var not_free_vars level = match not_free_vars with
 
 let rec renumirate_not_free_var expr lvl curlvl = match expr with
     | FreeVar     (s)   ->  expr
-    | NotFreeVar  (l)   ->  if (l > curlvl) then NotFreeVar (l + lvl) else expr
+    | NotFreeVar  (l)   ->  if (l >= curlvl) then NotFreeVar (l + lvl) else expr
     | Abstract    (e)   ->  Abstract (renumirate_not_free_var e lvl (curlvl + 1))
     | Aplic       (f, s)->  Aplic ((renumirate_not_free_var f lvl curlvl), (renumirate_not_free_var s lvl curlvl))
 ;;
